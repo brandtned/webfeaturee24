@@ -19,16 +19,5 @@
     .tobii {
         background-color: black;
     }
-	
-   cursor{
-/* Keyword value */
-cursor: auto;
-cursor: pointer;
-/* … */
-cursor: zoom-out;
-
-/* URL with mandatory keyword fallback */
-cursor: url(/public/kryds.jpeg), pointer;
-   }
 
 }
