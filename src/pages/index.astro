@@ -1,6 +1,6 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import { Image } from 'astro:assets';
+import { Image } from "astro:assets";
 import apoteket from "../assets/images/apoteket.jpg";
 import arbejde from "../assets/images/arbejde.jpg";
 import glitch from "../assets/images/glitch.jpg";
@@ -14,132 +14,166 @@ import "../styles/tobii.min.css";
 ---
 
 <MainLayout title="Titel">
-	<style>
-        /* Herovideo styling */
-        #herovideo {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: -1; /* Sørger for, at videoen ligger bag resten af indholdet */
-        }
+  <style>
+    /* Herovideo styling */
+    #herovideo {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1; /* Sørger for, at videoen ligger bag resten af indholdet */
+    }
 
-        video {
-            width: 100vw;
-            height: 100vh;
-            object-fit: cover;
-        }
+    video {
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+    }
 
-        /* Progress bar container */
-        .progress-container {
-            width: 100%;
-            height: 5px;
-            background-color: #ffffff;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-        }
+    /* Progress bar container */
+    .progress-container {
+      width: 100%;
+      height: 5px;
+      background-color: #ffffff;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
 
-        /* Progress bar style */
-        .progress-bar {
-            height: 100%;
-            width: 0;
-            background-color: #2f5ddb;
-            transition: width 0.25s ease;
-        }
+    /* Progress bar style */
+    .progress-bar {
+      height: 100%;
+      width: 0;
+      background-color: #2f5ddb;
+      transition: width 0.25s ease;
+    }
 
-        /* Typewriter-effekt */
-        .typewriter {
-            border-right: 2px solid white;
-            white-space: nowrap;
-            overflow: hidden;
-            margin: 0 auto;
-            letter-spacing: 0.15em;
-            animation: blink-caret 0.75s step-end infinite;
-        }
+    /* Typewriter-effekt */
+    .typewriter {
+      border-right: 2px solid white;
+      white-space: nowrap;
+      overflow: hidden;
+      margin: 0 auto;
+      letter-spacing: 0.15em;
+      animation: blink-caret 0.75s step-end infinite;
+    }
 
-        @keyframes blink-caret {
-            from, to { border-color: transparent; }
-            50% { border-color: white; }
-        }
+    @keyframes blink-caret {
+      from,
+      to {
+        border-color: transparent;
+      }
+      50% {
+        border-color: white;
+      }
+    }
 
-        .hidden { display: none; }
-        .visible { display: block; }
+    .hidden {
+      display: none;
+    }
+    .visible {
+      display: block;
+    }
 
-        /* Zoom-in effekt når musen er over billeder */
-        img {
-            transition: transform 0.3s ease;
-        }
+    /* Zoom-in effekt når musen er over billeder */
+    img {
+      transition: transform 0.3s ease;
+    }
 
-        img:hover {
-            transform: scale(1.1);
-            cursor: zoom-in;
-        }
-		/* Starttilstand: Gør elementet usynligt og flyt det lidt ned */
-		.fade-in {
-			opacity: 0;
-			transform: translateY(50px);
-			transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-		}
+    img:hover {
+      transform: scale(1.1);
+      cursor: zoom-in;
+    }
+    /* Starttilstand: Gør elementet usynligt og flyt det lidt ned */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(50px);
+      transition:
+        opacity 0.6s ease-out,
+        transform 0.6s ease-out;
+    }
 
-		/* Når elementet er i view, gør det synligt og flyt det til sin oprindelige position */
-		.fade-in.inview {
-			opacity: 1;
-			transform: translateY(0);
-		}
+    /* Når elementet er i view, gør det synligt og flyt det til sin oprindelige position */
+    .fade-in.inview {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
-		.fade-in {
-		opacity: 0;
-		transform: translateY(30px);
-		transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-	}
-    </style>
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition:
+        opacity 0.6s ease-out,
+        transform 0.6s ease-out;
+    }
+  </style>
 
-	<head>
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
-	</head>
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap"
+      rel="stylesheet"
+    />
+  </head>
 
-	<article class="md:p-0">
-		<div class="progress-container">
-            <div class="progress-bar" id="progress-bar"></div>
-        </div>
-		<section>
-			<section class="max-w-4xl mt-32 prose text-center" id="titel">
-				<!-- h1 med typewriter-effekt -->
-				<h1 class="text-5xl md:text-5xl text-white typewriter" id="dynamicText" style="font-family: 'Permanent Marker', cursive;"></h1>
-			</section>
-		
-			<section id="herovideo">
-				<video autoplay muted loop class="w-full h-full object-cover" id="slowVideo">
-					<source src="pierre-falcke-video.mp4" type="video/mp4">
-				</video> 
-			</section>
-		</section>
-		<section class="max-w-xl mx-auto prose mt-[100vh]" id="manchet">
-			<p class="text-xl text-white">Pierre Falcke. Du ved formentligt ikke hvem han er. Men indtil for kort tid siden, så du hans værker et par gange om dagen, hver dag, året rundt. Pierre Falcke var en af verdens bedst sælgende stock-fotografer, og han solgte over 2 millioner fotos om året. Men Pierre kunne ikke drømme om at bruge sine egne fotos - faktisk kan han ikke fordrage sit eget arbejde.</p>
-			<div>
-				<a href="pierre.jpeg" class="lightbox">
-					<Image src={pierre} alt="" class="my-0"/>
-					<figcaption class="text-white">Pierre Falcke, selvportræt</figcaption>
-				</a>
-			</div>
-			<p class="text-2xl italic text-center p-8 text-white fade-in">
-				Pierre sælger 2 millioner fotos om året
-			</p>
-			<p class="text-2xl italic text-center p-8 text-white fade-in">
-				Det svarer til én fotolicens hvert 16. sekund
-			</p>
-			<p class="text-2xl italic text-center text-white fade-in">
-				Du ser hans fotos ca. 2 gange om dagen
-			</p>
-		</section>
-		
-		<section
+  <article class="md:p-0">
+    <div class="progress-container">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
+    <section>
+      <section class="max-w-4xl mt-32 prose text-center" id="titel">
+        <!-- h1 med typewriter-effekt -->
+        <h1
+          class="text-5xl md:text-5xl text-white typewriter"
+          id="dynamicText"
+          style="font-family: 'Permanent Marker', cursive;"
+        >
+        </h1>
+      </section>
+
+      <section id="herovideo">
+        <video
+          autoplay
+          muted
+          loop
+          class="w-full h-full object-cover"
+          id="slowVideo"
+        >
+          <source src="pierre-falcke-video.mp4" type="video/mp4" />
+        </video>
+      </section>
+    </section>
+    <section class="max-w-xl mx-auto prose mt-[100vh]" id="manchet">
+      <p class="text-xl text-white">
+        Pierre Falcke. Du ved formentligt ikke hvem han er. Men indtil for kort
+        tid siden, så du hans værker et par gange om dagen, hver dag, året
+        rundt. Pierre Falcke var en af verdens bedst sælgende stock-fotografer,
+        og han solgte over 2 millioner fotos om året. Men Pierre kunne ikke
+        drømme om at bruge sine egne fotos - faktisk kan han ikke fordrage sit
+        eget arbejde.
+      </p>
+      <div>
+        <a href="pierre.jpeg" class="lightbox">
+          <Image src={pierre} alt="" class="my-0" />
+          <figcaption class="text-white">Pierre Falcke, selvportræt</figcaption>
+        </a>
+      </div>
+      <p class="text-2xl italic text-center p-8 text-white fade-in">
+        Pierre sælger 2 millioner fotos om året
+      </p>
+      <p class="text-2xl italic text-center p-8 text-white fade-in">
+        Det svarer til én fotolicens hvert 16. sekund
+      </p>
+      <p class="text-2xl italic text-center text-white fade-in">
+        Du ser hans fotos ca. 2 gange om dagen
+      </p>
+    </section>
+
+    <section
       class="max-w-4xl mx-auto my-32 prose border border-double p-8"
       id="hvaderstockfotos"
     >
@@ -174,268 +208,298 @@ import "../styles/tobii.min.css";
         </div>
       </div>
     </section>
-		
-		<section class="text-white" id="enskillevej">
-			<div class="max-w-xl mx-auto mt-32 prose text-white">
-				<h2 class="text-4xl text-white">En skillevej</h2>
-				<p>
-				  Pierre tjente godt det følgende årti. Men stille og roligt begyndte
-				  billederne også at give ham kvalme. Han kunne ikke holde sit eget
-				  arbejde ud, og måtte finde et modsvar til alle de blankpolerede fotos.
-				  Noget han kunne lave med stolthed. Pierre bestluttede sig for at
-				  droppe stock-fotos, og vende tilbage til rødderne.
-				</p>
-				<p>
-				  Han søgte inspiration i analog fotografering, i Lomo-bevægelsen,
-				  Glitch art og polaroid fotografering, og begyndte stille og roligt at
-				  skabe sig en ny stil - en stil med fokus på det uperfekte, og hvor der
-				  er et uforudsigeligt element i det at tage billeder.
-				</p>
-			  </div>
-		</section>
-		
-		<section class="max-w-4xl mx-auto my-32 prose border border-double text-white p-8" id="fotoeksperimenter">
-			<h2 class="text-2xl text-white">Fotoeksperimenter</h2>
-			<div class="grid grid-cols-3 gap-4">
-			  <div class="fade-in">
-				<h3 class="text-xl text-white">Analog fotografering</h3>
-				<p>
-				  Fotografering med gode, gammeldags filmruller. Analog fotografering
-				  stiger for tiden i popularitet, specielt blandt unge, og prisen på
-				  filmruller og vintage-kameraer skyder i vejret. Mange fotografer
-				  synes at film-fotografering er mere ægte har mere “sjæl.”
-				</p>
-				<p>
-				  Analog fotografering kan gå galt mange steder i processen, og det
-				  giver også mulighed for at eksperimentere med “det uperfekte og
-				  uforudsigelige i processen.” 
-				</p>
-			  </div>
-			  <div class="fade-in">
-				<h3 class="text-xl text-white">Glitch art</h3>
-				<p>
-				  Når der sker en teknisk fejl i et medie/en kommunikationskanal
-				  kaldes det en glitch. Glitch art går ud på at dyrke fejlene for at
-				  skabe kunst.
-				</p>
-			  </div>
-			  <div class="fade-in">
-				<h3 class="text-xl text-white">Lomografi</h3>
-				<p>
-				  Et lomografi er egentlig bare et fotografi skudt uden videre
-				  omtanke, og med noget foto-udstyr af ret alternativ kvalitet.
-				</p>
-				<p>
-				  Det kan måske lyde lidt anti-fotograf-agtigt. Men en del
-				  foto-entusiaster dyrker den slags, og ser det som en foto-genre.
-				</p>
-			  </div>
-			</div>
-		  </section>
-		
-		<section class="text-white" id="nybegyndelse">
-			<div class="max-w-xl mx-auto my-32 prose text-white">
-				<h2 class="text-4xl text-white">En ny begyndelse</h2>
-				<p>Men Pierre er glad for sin beslutning. Indkomsten er lavere nu, men
-				  han har stadig lidt penge på kontoen, og studerer nu
-				  kunstfotografering på fotoskolen Fatamorgana. Han glæder sig over hver
-				  dags kunstneriske eksperimenter, og er for første gang i sit liv
-				  rigtig stolt af sit arbejde. Som Pierre selv udtrykker det: <span
-					class="italic"
-					>“Det interessante ligger i fejlen. Et foto med masser af fejl er
-					interessant. Jeg eksperimenterer med udstyr og teknik, og skaber nye
-					visuelle udtryk. Det uperfekte er perfekt.”</span>
-				</p>
-			  </div>
-			<div class="grid grid-cols-2 gap-4 max-w-4xl mx-auto my-8 items-center prose">
-				<div>
-					<a href="over-out-icm.jpeg" class="lightbox">
-						<Image src={overouticm} alt="Overeksponeret og ude af fokus" class="my-0" />
-						<figcaption class="text-white">Overeksponeret og ude af fokus</figcaption>
-					</a>    
-				</div>
-				<div>
-					<a href="tynd-film.jpg" class="lightbox">
-						<Image src={tyndfilm} alt="Tynd film" class="my-0" />
-						<figcaption class="text-white">Tynd film</figcaption>
-					</a>
-				</div>
-			</div>
-			<div class="max-w-xl mx-auto my-32 prose text-white">
-				<p>
-				  Karrieren begynder også så småt også at gå den rette vej: Pierre er
-				  begyndt at sælge fotokunst på nettet, og har udgivet sin første
-				  foto-bog med titlen “Lidt i fem,” som er en fotografisk odyssé om at
-				  slæbe en brandert hjem i de tidlige morgentimer. I forbindelse med
-				  udgivelsen af bogen, har han en udstilling på vej i det Kongelige
-				  Biblioteks fotoudstilling.
-				</p>
-				<p>
-				  Som Pierre forklarer det: <span class="italic text-white"
-					>“Nu kan jeg leve livet igen. Jeg føler mig frisk. Jeg føler mig
-					fri. Jeg føler mig genfødt.”</span
-				  >
-				</p>
-				<div>
-				  <a href="lidtifem-pierre-falcke.jpg" class="lightbox" alt="">
-					<Image src={lidtifem} alt="" class="my-0" />
-					<figcaption class="text-white">Lidt i fem - ny bog af Pierre Falcke</figcaption>
-				  </a>
-				</div>
-			  </div>
-		</section>
-	</article>
+
+    <section class="text-white" id="enskillevej">
+      <div class="max-w-xl mx-auto mt-32 prose text-white">
+        <h2 class="text-4xl text-white">En skillevej</h2>
+        <p>
+          Pierre tjente godt det følgende årti. Men stille og roligt begyndte
+          billederne også at give ham kvalme. Han kunne ikke holde sit eget
+          arbejde ud, og måtte finde et modsvar til alle de blankpolerede fotos.
+          Noget han kunne lave med stolthed. Pierre bestluttede sig for at
+          droppe stock-fotos, og vende tilbage til rødderne.
+        </p>
+        <p>
+          Han søgte inspiration i analog fotografering, i Lomo-bevægelsen,
+          Glitch art og polaroid fotografering, og begyndte stille og roligt at
+          skabe sig en ny stil - en stil med fokus på det uperfekte, og hvor der
+          er et uforudsigeligt element i det at tage billeder.
+        </p>
+      </div>
+    </section>
+
+    <section
+      class="max-w-4xl mx-auto my-32 prose border border-double text-white p-8"
+      id="fotoeksperimenter"
+    >
+      <h2 class="text-2xl text-white">Fotoeksperimenter</h2>
+      <div class="grid grid-cols-3 gap-4">
+        <div class="fade-in">
+          <h3 class="text-xl text-white">Analog fotografering</h3>
+          <p>
+            Fotografering med gode, gammeldags filmruller. Analog fotografering
+            stiger for tiden i popularitet, specielt blandt unge, og prisen på
+            filmruller og vintage-kameraer skyder i vejret. Mange fotografer
+            synes at film-fotografering er mere ægte har mere “sjæl.”
+          </p>
+          <p>
+            Analog fotografering kan gå galt mange steder i processen, og det
+            giver også mulighed for at eksperimentere med “det uperfekte og
+            uforudsigelige i processen.”
+          </p>
+        </div>
+        <div class="fade-in">
+          <h3 class="text-xl text-white">Glitch art</h3>
+          <p>
+            Når der sker en teknisk fejl i et medie/en kommunikationskanal
+            kaldes det en glitch. Glitch art går ud på at dyrke fejlene for at
+            skabe kunst.
+          </p>
+        </div>
+        <div class="fade-in">
+          <h3 class="text-xl text-white">Lomografi</h3>
+          <p>
+            Et lomografi er egentlig bare et fotografi skudt uden videre
+            omtanke, og med noget foto-udstyr af ret alternativ kvalitet.
+          </p>
+          <p>
+            Det kan måske lyde lidt anti-fotograf-agtigt. Men en del
+            foto-entusiaster dyrker den slags, og ser det som en foto-genre.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="text-white" id="nybegyndelse">
+      <div class="max-w-xl mx-auto my-32 prose text-white">
+        <h2 class="text-4xl text-white">En ny begyndelse</h2>
+        <p>
+          Men Pierre er glad for sin beslutning. Indkomsten er lavere nu, men
+          han har stadig lidt penge på kontoen, og studerer nu
+          kunstfotografering på fotoskolen Fatamorgana. Han glæder sig over hver
+          dags kunstneriske eksperimenter, og er for første gang i sit liv
+          rigtig stolt af sit arbejde. Som Pierre selv udtrykker det: <span
+            class="italic"
+            >“Det interessante ligger i fejlen. Et foto med masser af fejl er
+            interessant. Jeg eksperimenterer med udstyr og teknik, og skaber nye
+            visuelle udtryk. Det uperfekte er perfekt.”</span
+          >
+        </p>
+      </div>
+      <div
+        class="grid grid-cols-2 gap-4 max-w-4xl mx-auto my-8 items-center prose"
+      >
+        <div>
+          <a href="over-out-icm.jpeg" class="lightbox">
+            <Image
+              src={overouticm}
+              alt="Overeksponeret og ude af fokus"
+              class="my-0"
+            />
+            <figcaption class="text-white">
+              Overeksponeret og ude af fokus
+            </figcaption>
+          </a>
+        </div>
+        <div>
+          <a href="tynd-film.jpg" class="lightbox">
+            <Image src={tyndfilm} alt="Tynd film" class="my-0" />
+            <figcaption class="text-white">Tynd film</figcaption>
+          </a>
+        </div>
+      </div>
+      <div class="max-w-xl mx-auto my-32 prose text-white">
+        <p>
+          Karrieren begynder også så småt også at gå den rette vej: Pierre er
+          begyndt at sælge fotokunst på nettet, og har udgivet sin første
+          foto-bog med titlen “Lidt i fem,” som er en fotografisk odyssé om at
+          slæbe en brandert hjem i de tidlige morgentimer. I forbindelse med
+          udgivelsen af bogen, har han en udstilling på vej i det Kongelige
+          Biblioteks fotoudstilling.
+        </p>
+        <p>
+          Som Pierre forklarer det: <span class="italic text-white"
+            >“Nu kan jeg leve livet igen. Jeg føler mig frisk. Jeg føler mig
+            fri. Jeg føler mig genfødt.”</span
+          >
+        </p>
+        <div>
+          <a href="lidtifem-pierre-falcke.jpg" class="lightbox" alt="">
+            <Image src={lidtifem} alt="" class="my-0" />
+            <figcaption class="text-white">
+              Lidt i fem - ny bog af Pierre Falcke
+            </figcaption>
+          </a>
+        </div>
+      </div>
+    </section>
+  </article>
 </MainLayout>
 <script is:inline src="/tobii.min.js"></script>
 <script defer>
-	const tobii = new Tobii(); 
+const tobii = new Tobii();
 </script>
 
 <script>
-	// Find hero-videoen og alle sektioner med "hidden" klassen
-	const heroVideo = document.getElementById('herovideo');
-	const hiddenSections = document.querySelectorAll('.content-below');
+  // Find hero-videoen og alle sektioner med "hidden" klassen
+  const heroVideo = document.getElementById("herovideo");
+  const hiddenSections = document.querySelectorAll(".content-below");
 
-	// Tilføj eventlistener til scroll
-	window.addEventListener('scroll', function() {
-		const videoBottom = heroVideo.getBoundingClientRect().bottom;
+  // Tilføj eventlistener til scroll
+  window.addEventListener("scroll", function () {
+    const videoBottom = heroVideo.getBoundingClientRect().bottom;
 
-		// Hvis brugeren scroller forbi videoen, fjern hidden klassen på sektionerne
-		if (videoBottom <= 0) {
-			hiddenSections.forEach(section => {
-				section.classList.remove('hidden');
-			});
-		}
-	});
-
-	// Sæt videoens afspilningshastighed til at være langsom
-	const slowVideo = document.getElementById('slowVideo');
-	slowVideo.playbackRate = 0.2; // Gør videoen langsommere, f.eks. 0.2x hastighed
-</script>
-<script>
-    const textElement = document.getElementById('dynamicText');
-    const sentences = ["Uperfekt er perfekt", "En fortælling af Pierre"];
-    let currentSentenceIndex = 0;
-    let isDeleting = false;
-    let charIndex = 0;
-    const typingSpeed = 100; // Hastighed for at skrive bogstaver (i millisekunder)
-    const deletingSpeed = 50; // Hastighed for at slette bogstaver
-    const delayBetweenSentences = 1500; // Pause mellem sætninger (i millisekunder)
-
-    function typeWriter() {
-        const currentSentence = sentences[currentSentenceIndex];
-
-        if (isDeleting) {
-            // Sletter bogstaver
-            textElement.innerHTML = currentSentence.substring(0, charIndex);
-            charIndex--;
-
-            // Når hele sætningen er slettet
-            if (charIndex < 0) {
-                isDeleting = false;
-                currentSentenceIndex++; // Skift til næste sætning
-
-                // Stop, hvis begge sætninger er skrevet
-                if (currentSentenceIndex >= sentences.length) {
-                    return; // Stopper typewriter-funktionen efter sidste sætning
-                }
-
-                setTimeout(typeWriter, typingSpeed); // Vent et øjeblik før skrivning starter igen
-            } else {
-                setTimeout(typeWriter, deletingSpeed);
-            }
-        } else {
-            // Skriver bogstaver
-            textElement.innerHTML = currentSentence.substring(0, charIndex + 1);
-            charIndex++;
-
-            // Når hele sætningen er skrevet
-            if (charIndex === currentSentence.length) {
-                isDeleting = true;
-                setTimeout(typeWriter, delayBetweenSentences); // Vent før sletning starter
-            } else {
-                setTimeout(typeWriter, typingSpeed);
-            }
-        }
+    // Hvis brugeren scroller forbi videoen, fjern hidden klassen på sektionerne
+    if (videoBottom <= 0) {
+      hiddenSections.forEach((section) => {
+        section.classList.remove("hidden");
+      });
     }
+  });
 
-    // Start typewriter-effekten
-    typeWriter();
+  // Sæt videoens afspilningshastighed til at være langsom
+  const slowVideo = document.getElementById("slowVideo");
+  slowVideo.playbackRate = 0.2; // Gør videoen langsommere, f.eks. 0.2x hastighed
 </script>
 <script>
-    const typewriterSound = new Audio('/audio/typewrite.mp3');
+  const textElement = document.getElementById("dynamicText");
+  const sentences = ["Uperfekt er perfekt", "En fortælling af Pierre"];
+  let currentSentenceIndex = 0;
+  let isDeleting = false;
+  let charIndex = 0;
+  const typingSpeed = 100; // Hastighed for at skrive bogstaver (i millisekunder)
+  const deletingSpeed = 50; // Hastighed for at slette bogstaver
+  const delayBetweenSentences = 1500; // Pause mellem sætninger (i millisekunder)
 
-    // Afspil lyd ved første klik eller scroll
-    function playTypewriterSound() {
-        typewriterSound.play().catch(error => {
-            console.error('Autoplay failed:', error);
-        });
-    }
+  function typeWriter() {
+    const currentSentence = sentences[currentSentenceIndex];
 
-    // Event lytter til klik eller scroll
-    window.addEventListener('click', playTypewriterSound, { once: true });
-    window.addEventListener('scroll', playTypewriterSound, { once: true });
-</script>
-<script>
-	window.onscroll = function() { updateProgressBar() };
+    if (isDeleting) {
+      // Sletter bogstaver
+      textElement.innerHTML = currentSentence.substring(0, charIndex);
+      charIndex--;
 
-	function updateProgressBar() {
-		var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-		var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-		var scrolled = (winScroll / height) * 100;
-		document.getElementById("progress-bar").style.width = scrolled + "%";
-	}
-	// Vælg alle de elementer, som du vil animere
-const faders = document.querySelectorAll('.fade-in');
+      // Når hele sætningen er slettet
+      if (charIndex < 0) {
+        isDeleting = false;
+        currentSentenceIndex++; // Skift til næste sætning
 
-// Opret en IntersectionObserver
-const observer = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('inview'); // Tilføj 'inview' klasse, når elementet er synligt
-            observer.unobserve(entry.target); // Stop med at observere, når animationen er udløst
+        // Stop, hvis begge sætninger er skrevet
+        if (currentSentenceIndex >= sentences.length) {
+          return; // Stopper typewriter-funktionen efter sidste sætning
         }
+
+        setTimeout(typeWriter, typingSpeed); // Vent et øjeblik før skrivning starter igen
+      } else {
+        setTimeout(typeWriter, deletingSpeed);
+      }
+    } else {
+      // Skriver bogstaver
+      textElement.innerHTML = currentSentence.substring(0, charIndex + 1);
+      charIndex++;
+
+      // Når hele sætningen er skrevet
+      if (charIndex === currentSentence.length) {
+        isDeleting = true;
+        setTimeout(typeWriter, delayBetweenSentences); // Vent før sletning starter
+      } else {
+        setTimeout(typeWriter, typingSpeed);
+      }
+    }
+  }
+
+  // Start typewriter-effekten
+  typeWriter();
+</script>
+<script>
+  const typewriterSound = new Audio("/audio/typewrite.mp3");
+
+  // Afspil lyd ved første klik eller scroll
+  function playTypewriterSound() {
+    typewriterSound.play().catch((error) => {
+      console.error("Autoplay failed:", error);
     });
-}, { threshold: 0.1 }); // 0.1 betyder, at 10% af elementet skal være synligt, før animationen starter
+  }
 
-// Overvåg alle de elementer, vi har valgt
-faders.forEach(fader => {
+  // Event lytter til klik eller scroll
+  window.addEventListener("click", playTypewriterSound, { once: true });
+  window.addEventListener("scroll", playTypewriterSound, { once: true });
+</script>
+<script>
+  window.onscroll = function () {
+    updateProgressBar();
+  };
+
+  function updateProgressBar() {
+    var winScroll =
+      document.body.scrollTop || document.documentElement.scrollTop;
+    var height =
+      document.documentElement.scrollHeight -
+      document.documentElement.clientHeight;
+    var scrolled = (winScroll / height) * 100;
+    document.getElementById("progress-bar").style.width = scrolled + "%";
+  }
+  // Vælg alle de elementer, som du vil animere
+  const faders = document.querySelectorAll(".fade-in");
+
+  // Opret en IntersectionObserver
+  const observer = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("inview"); // Tilføj 'inview' klasse, når elementet er synligt
+          observer.unobserve(entry.target); // Stop med at observere, når animationen er udløst
+        }
+      });
+    },
+    { threshold: 0.1 }
+  ); // 0.1 betyder, at 10% af elementet skal være synligt, før animationen starter
+
+  // Overvåg alle de elementer, vi har valgt
+  faders.forEach((fader) => {
     observer.observe(fader);
-});
+  });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@motionone"></script>
 <script>
   // Vælg alle elementer med klassen 'fade-in'
-  const elements = document.querySelectorAll('.fade-in');
+  const elements = document.querySelectorAll(".fade-in");
 
   // Brug inView-funktionen fra Motion One til at animere, når elementerne kommer i viewporten
-  motion.inView('.fade-in', ({ target }) => {
-    motion.animate(target, {
-      opacity: 1,          // Fade in
-      transform: "translateY(0)" // Flyt til sin oprindelige position
-    }, {
-      duration: 0.6,        // Varighed af animationen
-      delay: motion.stagger(0.2), // Forsink hver animation med 0.2 sekunder
-      easing: 'ease-out'    // Blød overgang for animationen
-    });
+  motion.inView(".fade-in", ({ target }) => {
+    motion.animate(
+      target,
+      {
+        opacity: 1, // Fade in
+        transform: "translateY(0)", // Flyt til sin oprindelige position
+      },
+      {
+        duration: 0.6, // Varighed af animationen
+        delay: motion.stagger(0.2), // Forsink hver animation med 0.2 sekunder
+        easing: "ease-out", // Blød overgang for animationen
+      }
+    );
   });
 </script>
 <script>
-    window.onload = function () {
-        playSound();
-    };
+  window.onload = function () {
+    playSound();
+  };
 
-    let typewriterSound = new Audio('/typewriter.mp3');
+  let typewriterSound = new Audio("/typewriter.mp3");
 
-    function playSound() {
-        typewriterSound.play().then(() => {
-            // Stop lyden efter 10 sekunder (10.000 ms)
-            setTimeout(() => {
-                typewriterSound.pause();
-                typewriterSound.currentTime = 0; // Nulstil lyden, så den starter fra begyndelsen, hvis det ønskes
-            }, 10000);  // 10000 ms = 10 sekunder
-        }).catch(function(error) {
-            console.log('Autoplay failed due to browser restrictions:', error);
-        });
-    }
+  function playSound() {
+    typewriterSound
+      .play()
+      .then(() => {
+        // Stop lyden efter 10 sekunder (10.000 ms)
+        setTimeout(() => {
+          typewriterSound.pause();
+          typewriterSound.currentTime = 0; // Nulstil lyden, så den starter fra begyndelsen, hvis det ønskes
+        }, 10000); // 10000 ms = 10 sekunder
+      })
+      .catch(function (error) {
+        console.log("Autoplay failed due to browser restrictions:", error);
+      });
+  }
 </script>
