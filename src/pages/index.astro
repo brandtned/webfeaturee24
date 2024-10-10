@@ -109,6 +109,18 @@ import "../styles/tobii.min.css";
         opacity 0.6s ease-out,
         transform 0.6s ease-out;
     }
+	@keyframes infinite-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-infinite-scroll {
+  animation: infinite-scroll 15s linear infinite;
+}
   </style>
 
   <head>
@@ -120,7 +132,7 @@ import "../styles/tobii.min.css";
     />
   </head>
 
-  <article class="md:p-0">
+  <article class="md:p-0 ">
     <div class="progress-container">
       <div class="progress-bar" id="progress-bar"></div>
     </div>
@@ -157,7 +169,7 @@ import "../styles/tobii.min.css";
         eget arbejde.
       </p>
       <div>
-        <a href="pierre.jpeg" class="lightbox">
+        <a href="pierre.jpeg" class="lightbox ">
           <Image src={pierre} alt="" class="my-0" />
           <figcaption class="text-white">Pierre Falcke, selvportræt</figcaption>
         </a>
@@ -178,7 +190,7 @@ import "../styles/tobii.min.css";
       id="hvaderstockfotos"
     >
       <h2 class="text-2xl text-white">Hvad er stock-fotos?</h2>
-      <div class="grid grid-cols-3 gap-4 text-white">
+      <div class="grid grid-cols-3 gap-4 text-white cursor cursor-handcursor">
         <div>
           <p>
             Stock-fotos er billeder, der kan købes fra et foto-website. De
@@ -333,6 +345,33 @@ import "../styles/tobii.min.css";
         </div>
       </div>
     </section>
+	<section class="whitespace-nowrap overflow-x-hidden bg-zinc-900 text-white py-4">
+		<div class="inline-block animate-infinite-scroll whitespace-nowrap [&_span]:mx-6 ">
+			<span>Pierre Falcke</span>
+			<span>Uperfekt er Perfekt</span>
+			<span>Køb bogen nu</span>
+			<span>Se hans flotte billeder</span>
+			<span>Fra det danske landskab</span>
+			<span>eller</span>
+			<span>giv den som gave</span>
+			<span>til en ven</span>
+			<span>der elsker flotte billeder</span>
+			<span>Du er perfekt som du er</span>
+		</div>
+		<div class="inline-block animate-infinite-scroll whitespace-nowrap [&_span]:mx-6 " aria-hidden="true">
+			<span>Pierre Falcke</span>
+			<span>Uperfekt er Perfekt</span>
+			<span>Køb bogen nu</span>
+			<span>Se hans flotte billeder</span>
+			<span>Fra det danske landskab</span>
+			<span>eller</span>
+			<span>giv den som gave</span>
+			<span>til en ven</span>
+			<span>der elsker flotte billeder</span>
+			<span>Du er perfekt som du er</span>
+		</div>
+	</section>
+		
   </article>
 </MainLayout>
 <script is:inline src="/tobii.min.js"></script>
@@ -412,20 +451,6 @@ const tobii = new Tobii();
   typeWriter();
 </script>
 <script>
-  const typewriterSound = new Audio("/audio/typewrite.mp3");
-
-  // Afspil lyd ved første klik eller scroll
-  function playTypewriterSound() {
-    typewriterSound.play().catch((error) => {
-      console.error("Autoplay failed:", error);
-    });
-  }
-
-  // Event lytter til klik eller scroll
-  window.addEventListener("click", playTypewriterSound, { once: true });
-  window.addEventListener("scroll", playTypewriterSound, { once: true });
-</script>
-<script>
   window.onscroll = function () {
     updateProgressBar();
   };
@@ -502,15 +527,4 @@ const tobii = new Tobii();
         console.log("Autoplay failed due to browser restrictions:", error);
       });
   }
-</script>
-<script>
-  module.exports = {
-    theme: {
-      extend: {
-        cursor: {
-          kryds: "url(/kryds.jpeg), pointer",
-        },
-      },
-    },
-  };
 </script>
