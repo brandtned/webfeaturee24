@@ -132,7 +132,7 @@ import "../styles/tobii.min.css";
     </div>
     <section>
       <section class="max-w-4xl mt-32 prose text-center" id="titel">
-        <!-- h1 med typewriter-effekt -->
+
         <h1
           class="text-5xl md:text-5xl text-white typewriter"
           id="dynamicText"
@@ -368,7 +368,7 @@ import "../styles/tobii.min.css";
   </article>
 
 <script is:inline src="/tobii.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@motionone"></script>
+<script src="https://cdn.jsdelivr.net/npm/@motionone@1.0.0/dist/motion-one.umd.js"></script>
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     // Initialiser Tobii
@@ -449,18 +449,6 @@ import "../styles/tobii.min.css";
 
     faders.forEach((fader) => {
       observer.observe(fader);
-    });
-
-    // Motion One animation
-    motion.inView(".fade-in", ({ target }) => {
-      motion.animate(target, {
-        opacity: 1,
-        transform: "translateY(0)",
-      }, {
-        duration: 0.6,
-        delay: motion.stagger(0.2),
-        easing: "ease-out",
-      });
     });
 
     // Typewriter sound
