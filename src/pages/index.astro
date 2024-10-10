@@ -370,161 +370,119 @@ import "../styles/tobii.min.css";
 			<span>der elsker flotte billeder</span>
 			<span>Du er perfekt som du er</span>
 		</div>
-	</section>
-		
+	</section>	
   </article>
 </MainLayout>
+
 <script is:inline src="/tobii.min.js"></script>
-<script defer>
-const tobii = new Tobii();
-</script>
-
-<script>
-  // Find hero-videoen og alle sektioner med "hidden" klassen
-  const heroVideo = document.getElementById("herovideo");
-  const hiddenSections = document.querySelectorAll(".content-below");
-
-  // Tilføj eventlistener til scroll
-  window.addEventListener("scroll", function () {
-    const videoBottom = heroVideo.getBoundingClientRect().bottom;
-
-    // Hvis brugeren scroller forbi videoen, fjern hidden klassen på sektionerne
-    if (videoBottom <= 0) {
-      hiddenSections.forEach((section) => {
-        section.classList.remove("hidden");
-      });
-    }
-  });
-
-  // Sæt videoens afspilningshastighed til at være langsom
-  const slowVideo = document.getElementById("slowVideo");
-  slowVideo.playbackRate = 0.2; // Gør videoen langsommere, f.eks. 0.2x hastighed
-</script>
-<script>
-  const textElement = document.getElementById("dynamicText");
-  const sentences = ["Uperfekt er perfekt", "En fortælling af Pierre"];
-  let currentSentenceIndex = 0;
-  let isDeleting = false;
-  let charIndex = 0;
-  const typingSpeed = 100; // Hastighed for at skrive bogstaver (i millisekunder)
-  const deletingSpeed = 50; // Hastighed for at slette bogstaver
-  const delayBetweenSentences = 1500; // Pause mellem sætninger (i millisekunder)
-
-  function typeWriter() {
-    const currentSentence = sentences[currentSentenceIndex];
-
-    if (isDeleting) {
-      // Sletter bogstaver
-      textElement.innerHTML = currentSentence.substring(0, charIndex);
-      charIndex--;
-
-      // Når hele sætningen er slettet
-      if (charIndex < 0) {
-        isDeleting = false;
-        currentSentenceIndex++; // Skift til næste sætning
-
-        // Stop, hvis begge sætninger er skrevet
-        if (currentSentenceIndex >= sentences.length) {
-          return; // Stopper typewriter-funktionen efter sidste sætning
-        }
-
-        setTimeout(typeWriter, typingSpeed); // Vent et øjeblik før skrivning starter igen
-      } else {
-        setTimeout(typeWriter, deletingSpeed);
-      }
-    } else {
-      // Skriver bogstaver
-      textElement.innerHTML = currentSentence.substring(0, charIndex + 1);
-      charIndex++;
-
-      // Når hele sætningen er skrevet
-      if (charIndex === currentSentence.length) {
-        isDeleting = true;
-        setTimeout(typeWriter, delayBetweenSentences); // Vent før sletning starter
-      } else {
-        setTimeout(typeWriter, typingSpeed);
-      }
-    }
-  }
-
-  // Start typewriter-effekten
-  typeWriter();
-</script>
-<script>
-  window.onscroll = function () {
-    updateProgressBar();
-  };
-
-  function updateProgressBar() {
-    var winScroll =
-      document.body.scrollTop || document.documentElement.scrollTop;
-    var height =
-      document.documentElement.scrollHeight -
-      document.documentElement.clientHeight;
-    var scrolled = (winScroll / height) * 100;
-    document.getElementById("progress-bar").style.width = scrolled + "%";
-  }
-  // Vælg alle de elementer, som du vil animere
-  const faders = document.querySelectorAll(".fade-in");
-
-  // Opret en IntersectionObserver
-  const observer = new IntersectionObserver(
-    (entries, observer) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("inview"); // Tilføj 'inview' klasse, når elementet er synligt
-          observer.unobserve(entry.target); // Stop med at observere, når animationen er udløst
-        }
-      });
-    },
-    { threshold: 0.1 }
-  ); // 0.1 betyder, at 10% af elementet skal være synligt, før animationen starter
-
-  // Overvåg alle de elementer, vi har valgt
-  faders.forEach((fader) => {
-    observer.observe(fader);
-  });
-</script>
 <script src="https://cdn.jsdelivr.net/npm/@motionone"></script>
 <script>
-  // Vælg alle elementer med klassen 'fade-in'
-  const elements = document.querySelectorAll(".fade-in");
+  document.addEventListener("DOMContentLoaded", function () {
+    // Initialiser Tobii
+    const tobii = new Tobii();
 
-  // Brug inView-funktionen fra Motion One til at animere, når elementerne kommer i viewporten
-  motion.inView(".fade-in", ({ target }) => {
-    motion.animate(
-      target,
-      {
-        opacity: 1, // Fade in
-        transform: "translateY(0)", // Flyt til sin oprindelige position
-      },
-      {
-        duration: 0.6, // Varighed af animationen
-        delay: motion.stagger(0.2), // Forsink hver animation med 0.2 sekunder
-        easing: "ease-out", // Blød overgang for animationen
+    // Find hero-videoen og alle sektioner med "hidden" klassen
+    const heroVideo = document.getElementById("herovideo");
+    const hiddenSections = document.querySelectorAll(".content-below");
+    const slowVideo = document.getElementById("slowVideo");
+    slowVideo.playbackRate = 0.2; // Gør videoen langsommere
+
+    // Tilføj eventlistener til scroll
+    window.addEventListener("scroll", function () {
+      const videoBottom = heroVideo.getBoundingClientRect().bottom;
+      if (videoBottom <= 0) {
+        hiddenSections.forEach((section) => {
+          section.classList.remove("hidden");
+        });
       }
-    );
-  });
-</script>
-<script>
-  window.onload = function () {
-    playSound();
-  };
+      updateProgressBar();
+    });
 
-  let typewriterSound = new Audio("/typewriter.mp3");
+    // Progress bar
+    function updateProgressBar() {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      document.getElementById("progress-bar").style.width = scrolled + "%";
+    }
 
-  function playSound() {
-    typewriterSound
-      .play()
-      .then(() => {
-        // Stop lyden efter 10 sekunder (10.000 ms)
+    // Typewriter effekt
+    const textElement = document.getElementById("dynamicText");
+    const sentences = ["Uperfekt er perfekt", "En fortælling af Pierre"];
+    let currentSentenceIndex = 0;
+    let isDeleting = false;
+    let charIndex = 0;
+    const typingSpeed = 100;
+    const deletingSpeed = 50;
+    const delayBetweenSentences = 1500;
+
+    function typeWriter() {
+      const currentSentence = sentences[currentSentenceIndex];
+
+      if (isDeleting) {
+        textElement.innerHTML = currentSentence.substring(0, charIndex);
+        charIndex--;
+        if (charIndex < 0) {
+          isDeleting = false;
+          currentSentenceIndex++;
+          if (currentSentenceIndex >= sentences.length) return;
+          setTimeout(typeWriter, typingSpeed);
+        } else {
+          setTimeout(typeWriter, deletingSpeed);
+        }
+      } else {
+        textElement.innerHTML = currentSentence.substring(0, charIndex + 1);
+        charIndex++;
+        if (charIndex === currentSentence.length) {
+          isDeleting = true;
+          setTimeout(typeWriter, delayBetweenSentences);
+        } else {
+          setTimeout(typeWriter, typingSpeed);
+        }
+      }
+    }
+    typeWriter();
+
+    // Fade-in animation med IntersectionObserver
+    const faders = document.querySelectorAll(".fade-in");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("inview");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    faders.forEach((fader) => {
+      observer.observe(fader);
+    });
+
+    // Motion One animation
+    motion.inView(".fade-in", ({ target }) => {
+      motion.animate(target, {
+        opacity: 1,
+        transform: "translateY(0)",
+      }, {
+        duration: 0.6,
+        delay: motion.stagger(0.2),
+        easing: "ease-out",
+      });
+    });
+
+    // Typewriter sound
+    const typewriterSound = new Audio("/typewriter.mp3");
+
+    function playSound() {
+      typewriterSound.play().then(() => {
         setTimeout(() => {
           typewriterSound.pause();
-          typewriterSound.currentTime = 0; // Nulstil lyden, så den starter fra begyndelsen, hvis det ønskes
-        }, 10000); // 10000 ms = 10 sekunder
-      })
-      .catch(function (error) {
+          typewriterSound.currentTime = 0;
+        }, 10000);
+      }).catch((error) => {
         console.log("Autoplay failed due to browser restrictions:", error);
       });
-  }
+    }
+    playSound();
+  });
 </script>
